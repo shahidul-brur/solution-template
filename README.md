@@ -18,7 +18,7 @@
 * All of you application logic should be placed inside `Solution` class.
 * `Solution` class is located inside `./src/main/java/com/tigerit/exam/` directory.
 * There is a IO helper class named `./src/main/java/com/tigerit/exam/IO.java` for your convenience.
-* If you have any questions, feel free feel free to contact us (faisal.ahmed@tigeritbd.com, zobayer@tigeritbd.com).
+* If you have any questions, feel free feel free to contact us (zobayer@tigeritbd.com, ridowan@tigeritbd.com).
 
 ### System Requirements:
 
