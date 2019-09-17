@@ -71,7 +71,7 @@ public class Solution implements Runnable {
 	        
 	        Integer nQ = readLineAsInteger();
 	        
-	        printLine("Case " + cas + ": ");
+	        printLine("Test: " + cas);
 	        
 	        for(int q = 0; q < nQ; q++) {
 	        	HashMap<String, Integer> map = new HashMap<String, Integer>(); // mapping of each table name, 0 means first table, 1 means second table
