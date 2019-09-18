@@ -1,8 +1,3 @@
-package com.tigerit.exam;
-
-
-import static com.tigerit.exam.IO.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,12 +7,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-
 public class Solution implements Runnable {
-     @Override
-     public void run() {
+	
+ArrayList<String> []columnList = new ArrayList[12]; // list of all column names for each table
+
+public void run() {
     	
-    	//number of test cases 
+    	//number of test cases
         int T = readLineAsInteger();
         
         //for each test case
@@ -27,10 +23,10 @@ public class Solution implements Runnable {
 	        
 	        ArrayList<ArrayList<Integer>> []data = new ArrayList[nT]; // values of all tables
 	        HashMap<String, Integer> tableId = new HashMap<String, Integer>(); // table id for a table name
-	        HashMap<String, Integer> colId = new HashMap<String, Integer>(); // column id for a column name
-	        ArrayList<String> []columnList = new ArrayList[nT]; // list of all column names for each table
+	        
 	        
 	        for(int table = 0; table < nT; table++) {
+	        	
 	        	columnList[table] = new ArrayList<String>();
 	        	data[table] = new ArrayList<ArrayList<Integer>>();
 	        	String tableName = readLine();
@@ -47,7 +43,6 @@ public class Solution implements Runnable {
 	        	for(int c=0;c<nC;c++) {
 	        		String col = strs[c];
 	        		columnList[table].add(col);
-	        		colId.put(col, c);
 	        	}
 	        	
 	        	//data records
@@ -83,7 +78,7 @@ public class Solution implements Runnable {
 	        	String line2 = readLine();
 	        	String line3 = readLine();
 	        	String line4 = readLine();
-			String blankLine = readLine();
+	        	String blankLine = readLine();
 	        	
 	        	ArrayList<String> tokenizedLine1 = tokenize(line1); // tokenize the first line of the query
 	        	if (tokenizedLine1.isEmpty()) { // no column name in the select query
@@ -102,12 +97,20 @@ public class Solution implements Runnable {
 	        	if(tokenizedLine3.size()>1) // short name of the second table
 	        		map.put(tokenizedLine3.get(1), 1);
 	        	
-	        	if(selectAll == false) { // tokenize the column names from the first query line
+	        	if(selectAll == false) { // take the column id's from the first query line
 	        		for(String str:tokenizedLine1) {
+	        			
 	        			ArrayList<String> parts = partition(str);
-	        			tableColumns[map.get(parts.get(0))].add(colId.get(parts.get(1)));
+	        			
+	        			int part = map.get(parts.get(0)); // part = 0 means first table,
+	        											// part = 1  second table
+	        			int tid;
+	        			if(part == 0) tid = firstTableId;
+	        			else tid = secondTableId;
+	        			tableColumns[part].add(getCoumnId(tid, parts.get(1)));
 	        		}
-	        	}else { // insert all column id's of both table
+	        	}
+	        	else { // insert all column id's of both table
 					for(int i=0;i<data[firstTableId].get(0).size();i++) 
 						tableColumns[0].add(i);
 					for(int i=0;i<data[secondTableId].get(0).size();i++) 
@@ -116,10 +119,10 @@ public class Solution implements Runnable {
 	        	
 	        	ArrayList<String> tokenizedLine4 = tokenize(line4); // tokenize the 4th line of the query
 	        	ArrayList<String> parts = partition(tokenizedLine4.get(0)); // tokenize the column names from where clause
-	        	firstColId = colId.get(parts.get(1)); // matching column id of first table
+	        	firstColId = getCoumnId(firstTableId, parts.get(1)); // matching column id of first table
 	        	
 	        	parts = partition(tokenizedLine4.get(1));
-	        	secondColId = colId.get(parts.get(1)); // matching column id of second table
+	        	secondColId = getCoumnId(secondTableId, parts.get(1)); // matching column id of second table
 	        	
 	        	ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>(); // for storing join query result
 	        	
@@ -182,7 +185,15 @@ public class Solution implements Runnable {
 	        }
         }
     }
-    
+
+	private int getCoumnId(int table, String columnName){
+		for(int c = 0; c < columnList[table].size(); c++){
+			if(columnList[table].get(c).equals(columnName))
+				return c;
+		}
+		return 0;
+	}
+
     private ArrayList<String> tokenize(String str){ // string tokenization helper function
     	ArrayList<String> tokens = new ArrayList<String>();
     	String token = new String();
@@ -217,3 +228,4 @@ public class Solution implements Runnable {
     	return tokens;
     }
 }
+
