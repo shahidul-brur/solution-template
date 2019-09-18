@@ -12,13 +12,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-/**
- * All of your application logic should be placed inside this class.
- * Remember we will load your application from our custom container.
- * You may add private method inside this class but, make sure your
- * application's execution points start from inside run method.
- */
+
 public class Solution implements Runnable {
+     @Override
      public void run() {
     	
     	//number of test cases 
@@ -87,6 +83,7 @@ public class Solution implements Runnable {
 	        	String line2 = readLine();
 	        	String line3 = readLine();
 	        	String line4 = readLine();
+			String blankLine = readLine();
 	        	
 	        	ArrayList<String> tokenizedLine1 = tokenize(line1); // tokenize the first line of the query
 	        	if (tokenizedLine1.isEmpty()) { // no column name in the select query
@@ -165,23 +162,23 @@ public class Solution implements Runnable {
 	        	
 	        	
 	        	// print the column names of the first table
-				for(int k = 0; k < tableColumns[1].size();k++) {
-					int c = tableColumns[1].get(k);
-					if(k>0 || tableColumns[0].size()>0) System.out.print(" ");
-					System.out.print(columnList[secondTableId].get(c));
+			for(int k = 0; k < tableColumns[1].size();k++) {
+				int c = tableColumns[1].get(k);
+				if(k>0 || tableColumns[0].size()>0) System.out.print(" ");
+				System.out.print(columnList[secondTableId].get(c));
+			}
+			printLine("");
+
+			// print the column data from the result table
+			for(ArrayList<Integer> row:result) {
+				for(int k = 0; k < row.size();k++) {
+					if(k>0) System.out.print(" ");
+					System.out.print(row.get(k));
 				}
 				printLine("");
-				
-				// print the column data from the result table
-				for(ArrayList<Integer> row:result) {
-					for(int k = 0; k < row.size();k++) {
-						if(k>0) System.out.print(" ");
-						System.out.print(row.get(k));
-					}
-					printLine("");
-				}
-				printLine("");
-				//query is ended
+			}
+			printLine("");
+			//query is ended
 	        }
         }
     }
